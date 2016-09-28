@@ -5,6 +5,8 @@
  */
 package experimentorm;
 
+import controller.AddressJpaController;
+import controller.WriterJpaController;
 import entity.Address;
 import entity.Book;
 import entity.Reader;
@@ -31,15 +33,20 @@ public class ExperimentOrm {
         Book book2 = new Book("Это книга 2");
         Book book3 = new Book("Это книга 3");
 
-        Address addressWriter = new Address("улица 1", "улица 2", "Таллинн", "Харьюмаа", "23434", "Эстония");
-        Writer writer = new Writer(book3, addressWriter, "Ivan", "Ivanov", "37909069999");
-        Address addressReader = new Address("street3", "street4", "Johve", "Ida-Virumaa", "41434", "Estonia");
+        Address addressWriter = new Address("13","12a","улица 1", "Таллинн", "Харьюмаа", "23434", "Эстония");
+        Writer writer = new Writer(book3, addressWriter, "Nikolay", "Nikolaev", "37509069323");
+        Address addressReader = new Address("14","12a","street3", "Johve", "Ida-Virumaa", "41434", "Estonia");
         Reader reader = new Reader(book3, addressReader, "Николай", "Николаев", "37806065543");
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("ExperimentOrmPU");
         EntityManager em = emf.createEntityManager();
         EntityTransaction tx = em.getTransaction();
         tx.begin();
-//           em.persist(writer); 
+           Query query = em.createNamedQuery("Write.findWithParam").setParameter("fcode",writer.getCode());
+           List<Writer> writers = query.getResultList();
+           if(writers.isEmpty()){
+               em.persist(writer);
+           }
+
 //           em.persist(reader); 
 //           em.persist(book1);
 //             Reader readerAddBook= em.find(Reader.class, 1L);

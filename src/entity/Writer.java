@@ -16,16 +16,21 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
-import javax.persistence.Table;
 
 /**
  *
  * @author jvm
  */
 @Entity
-//@Table(name = "writer")
+@NamedQueries({
+    @NamedQuery(name = "Write.findAll", query="select w from Writer w"),
+    @NamedQuery(name = "Write.findWithParam", query="select w from Writer w where w.code = :fcode")
+})
+
 public class Writer extends Person implements Serializable {
 
     @Id
@@ -116,8 +121,6 @@ public class Writer extends Person implements Serializable {
         return "entity.Writer[ id=" + id + " книги=" + booksStr.toString() + " ]";
     }
 
-
-    
 
    
 

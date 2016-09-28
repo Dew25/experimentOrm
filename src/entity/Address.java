@@ -9,14 +9,10 @@ import java.io.Serializable;
 import java.util.Objects;
 import javax.persistence.Access;
 import javax.persistence.AccessType;
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToOne;
-import javax.persistence.SecondaryTable;
-import javax.persistence.SecondaryTables;
 import javax.persistence.Table;
 
 /**
@@ -25,50 +21,34 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name="address")
-@SecondaryTables({
-    @SecondaryTable(name = "city"),
-    @SecondaryTable(name = "country")
-})
 @Access(AccessType.FIELD)//указывает тип доступа, т.е. где будет аннотироваться:поля или геттеры
 public class Address implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String street1;
-    private String street2;
-    @Column(table = "city")
+    private String room;
+    private String house;
+    private String street;
     private String city;
-    @Column(table = "city")
     private String state;
-    @Column(table = "city")
     private String zipcode;
-    @Column(table = "country")
     private String country;
-    @OneToOne(mappedBy = "address")
-    private Writer writer;
-
+    
     public Address() {
     }
 
-    public Address(String street1, String street2, String city, String state, String zipcode, String country) {
-        this.street1 = street1;
-        this.street2 = street2;
+    public Address(String room, String house, String street, String city, String state, String zipcode, String country) {
+        this.room = room;
+        this.house = house;
+        this.street = street;
         this.city = city;
         this.state = state;
         this.zipcode = zipcode;
         this.country = country;
     }
 
-    public Address(String street1, String street2, String city, String state, String zipcode, String country, Writer writer) {
-        this.street1 = street1;
-        this.street2 = street2;
-        this.city = city;
-        this.state = state;
-        this.zipcode = zipcode;
-        this.country = country;
-        this.writer = writer;
-    }
+
 
     public Long getId() {
         return id;
@@ -78,20 +58,12 @@ public class Address implements Serializable {
         this.id = id;
     }
 
-    public String getStreet1() {
-        return street1;
+    public String getStreet() {
+        return street;
     }
 
-    public void setStreet1(String street1) {
-        this.street1 = street1;
-    }
-
-    public String getStreet2() {
-        return street2;
-    }
-
-    public void setStreet2(String street2) {
-        this.street2 = street2;
+    public void setStreet(String street) {
+        this.street = street;
     }
 
     public String getCity() {
@@ -125,24 +97,27 @@ public class Address implements Serializable {
     public void setCountry(String country) {
         this.country = country;
     }
-   
 
-    public Writer getWriter() {
-        return writer;
+    public String getRoom() {
+        return room;
     }
 
-    public void setWriter(Writer writer) {
-        this.writer = writer;
+    public void setRoom(String room) {
+        this.room = room;
     }
-    @Override
-    public String toString() {
-        return "Address{" + "id=" + id + ", street1=" + street1 + ", street2=" + street2 + ", city=" + city + ", state=" + state + ", zipcode=" + zipcode + ", country=" + country + '}';
+
+    public String getHouse() {
+        return house;
+    }
+
+    public void setHouse(String house) {
+        this.house = house;
     }
 
     @Override
     public int hashCode() {
         int hash = 5;
-        hash = 53 * hash + Objects.hashCode(this.id);
+        hash = 97 * hash + Objects.hashCode(this.id);
         return hash;
     }
 
@@ -163,6 +138,13 @@ public class Address implements Serializable {
         }
         return true;
     }
+
+    @Override
+    public String toString() {
+        return "Address{" + "id=" + id + ", room=" + room + ", house=" + house + ", street=" + street + ", city=" + city + ", state=" + state + ", zipcode=" + zipcode + ", country=" + country + '}';
+    }
+
+   
     
 }
 
